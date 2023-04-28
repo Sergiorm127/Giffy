@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import getGifs from './services/getGifs';
+
+
 
 function App() {
+  const [gifs, setGifs]=  useState([])
+  
+  useEffect(function(){
+    getGifs({keyword: 'panda'}).then(gifs => setGifs(gifs))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <section className="App-header"> 
+      {
+        gifs.map(singleGif =>{
+          return <div>
+            <h4>{singleGif.title}</h4>
+            <small>{singleGif.id}</small>
+            <img alt={singleGif.title} src={singleGif.url} />
+          </div>
+          
+        })
+      } 
+      </section>
+       
     </div>
   );
 }
